@@ -1,0 +1,28 @@
+{
+  "name": "d365-page-inspector",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Chrome extension that captures Microsoft Dynamics 365 F&O page context (environment, legal entity, form, menu item, user) for faster, more complete support tickets.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.2.2",
+    "@types/node": "^24.13.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.3",
+    "oxlint": "^1.71.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.1.1"
+  }
+}
