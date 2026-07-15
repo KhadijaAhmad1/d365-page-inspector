@@ -1,93 +1,95 @@
 # D365 Page Inspector
 
-A free, open-source Chrome extension that captures the technical context of your current Microsoft Dynamics 365 Finance & Operations page in one click, so you spend less time chasing basic details when reporting a support ticket.
+A free, open-source Chrome extension for anyone working in Microsoft Dynamics 365 Finance & Operations. Click the icon, and it grabs the technical details of the page you're on, so you stop having to dig them up yourself every time you log a support ticket.
 
-Built for anyone who works in D365 F&O day to day: end users, functional consultants, technical consultants, and support teams.
+Built with support teams, functional consultants, and technical consultants in mind, but genuinely useful for any regular D365 user.
 
-## The problem
+## Why this exists
 
-When something goes wrong in D365, the person raising the ticket rarely includes everything the support team actually needs: which environment, which legal entity, which form, which menu item, and the exact time it happened. That means extra rounds of "can you confirm which company you were in?" before anyone can start investigating.
+Ask most users to raise a D365 ticket and they'll tell you what went wrong, but rarely which environment they were in, which legal entity, or which form. So the support team asks. Then waits. Then asks again. A ticket that should take five minutes to triage ends up needing three separate replies just to establish the basics.
 
-## What it does
+## What it captures
 
-Click the extension icon on any Dynamics 365 F&O page and it automatically reads:
+Open the popup on any D365 F&O page and it reads:
 
-- Environment (and a best-effort guess at environment type: production, sandbox/UAT, or development)
+- Environment, plus a best-effort guess at whether it's production, sandbox/UAT, or dev
 - Legal entity
 - User
-- Current page title
-- Form name
-- Menu item
-- Full URL
-- Timestamp
+- Form name and menu item
+- The full navigation path (the breadcrumb trail, so support staff know exactly which menu to follow to get there themselves)
+- Page title, URL, and timestamp
 
-From there you can:
+None of this is guaranteed to be perfect. D365's page structure shifts depending on version, theme, and how heavily an organisation has customised it, so every field stays editable before you copy or export anything. If a field comes back wrong, fix it and move on.
 
-- **Copy all** — one click, formatted and ready to paste into a ticket, email, or Teams message
-- **Export** — save as a `.txt` file
-- **Generate an incident report** — add a short description of the issue and get a ready-to-send report combining your description with the captured context
-- **Favourite** pages you check often
-- **Browse recent pages** you've captured, without needing to retype anything
+## What you can do with it
 
-Detection is best-effort — D365's page structure varies by version, theme, and customisation, so every field is editable before you copy or export it. Nothing is ever sent anywhere: all data stays in your browser's local storage.
+- **Copy everything** in one click, formatted and ready to paste into a ticket, email, or Teams message
+- **Export** it as a `.txt` file
+- **Generate an incident report** by adding a short description of the issue on top of what's already captured
+- **Favourite** the pages you check constantly
+- **Browse recent captures** instead of retyping the same details twice in one day
 
-## Installation
+Nothing leaves your browser. There's no server behind this, no analytics, no account to sign into. Everything sits in Chrome's local storage on your own machine.
 
-### From source (current)
+## Installing it
 
-1. Download or clone this repository.
-2. Run `npm install` then `npm run build`.
-3. Open `chrome://extensions` in Chrome or Edge.
-4. Turn on **Developer mode** (top right).
-5. Click **Load unpacked** and select the `dist` folder produced by the build.
+### From source, for now
+
+1. Clone or download this repo.
+2. Run `npm install`, then `npm run build`.
+3. Open `chrome://extensions` (works in Edge too).
+4. Turn on **Developer mode**, top right corner.
+5. Click **Load unpacked** and point it at the `dist` folder the build just created.
 
 ### Chrome Web Store
 
-Not yet published. This is planned once the extension has had some real-world use and feedback — see [Roadmap](#roadmap).
+Not published yet. Once it's had some real use and a round of feedback, that's the plan — see the roadmap below.
 
-## Privacy
+## On privacy
 
-This extension does not collect, transmit, or store any data outside your own browser. Captured pages, favourites, and recent history are kept in Chrome's local storage on your device only, using the `storage` permission. There is no backend, no analytics, and no account.
+Short version: there isn't a privacy concern here, because there's nowhere for your data to go. Pages you capture, favourites, and recent history live in Chrome's local storage, protected under the `storage` permission, and stay on your device. No backend exists for this to talk to.
 
-## Permissions explained
+## Permissions, and why each one is there
 
-| Permission | Why it's needed |
+| Permission | What it's for |
 |---|---|
-| `activeTab` | Read the current tab's D365 page when you open the popup |
-| `scripting` | Run the content script that reads page context |
-| `storage` | Save recent pages and favourites locally |
-| `clipboardWrite` | Support the copy-to-clipboard button |
-| Host access to `*.dynamics.com` | The extension only activates on Dynamics 365 pages |
+| `activeTab` | Reads the current tab's D365 page when you open the popup |
+| `scripting` | Runs the content script that actually reads the page |
+| `storage` | Keeps recent pages and favourites saved locally |
+| `clipboardWrite` | Makes the copy button work |
+| Host access to `*.dynamics.com` | The extension only ever wakes up on Dynamics 365 pages |
 
-## Tech stack
+## Built with
 
-- React + TypeScript
-- Vite (multi-entry build for popup, content script, and background service worker)
+- React and TypeScript
+- Vite, with a multi-entry build for the popup, content script, and background service worker
 - Chrome Extension Manifest V3
 - Chrome Storage API
 
-## Roadmap
+## Where this is headed
 
-- [ ] Gather feedback from real D365 users and iterate on field detection accuracy across more D365 themes/versions
-- [ ] Publish to the Chrome Web Store
-- [ ] Global search across D365 menu items
+- [ ] Testing detection accuracy across more D365 themes and versions, and fixing what breaks
+- [ ] Publishing to the Chrome Web Store
+- [ ] Search across all menu items from one place
 - [ ] Keyboard shortcuts
 - [ ] Dark mode
-- [ ] Optional AI-assisted troubleshooting suggestions (bring-your-own API key, off by default)
-- [ ] "Open in another environment" quick links
+- [ ] Optional AI-assisted troubleshooting, bring-your-own API key, off unless you turn it on
+- [ ] Quick links to open the same record in another environment (Test/UAT/Production)
 
 ## Contributing
 
-Issues and pull requests are welcome. If a detection selector doesn't work for your D365 environment, please open an issue with:
+Found a page where a field isn't detecting properly? Open an issue and include:
 
-- The D365 version/theme you're using (Fluent or classic)
-- Which field wasn't detected correctly
-- A redacted screenshot or HTML snippet of the relevant page element, if you're able to share one
+- Which D365 version or theme you're on (Fluent or classic)
+- The field that came back wrong or empty
+- A screenshot or HTML snippet of that part of the page, redacted as needed
+
+That's usually enough to track down the right selector.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT. Full text in [LICENSE](LICENSE).
 
 ## Author
 
-Built and maintained by Meeral.
+Built and maintained by Khadija.
